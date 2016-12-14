@@ -1,42 +1,52 @@
 package com.servicestomcat.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.servicestomcat.model.Bank;
 import com.servicestomcat.service.BankService;
 
 public class BankServiceImpl implements BankService {
 
+	public static Map<Long, Bank> repository;
+	
+	public BankServiceImpl() {
+		if(repository == null) {
+			repository = new HashMap<>();
+		}
+	}
+	
 	@Override
-	public void createBank(Bank bank) {
-		// TODO Auto-generated method stub
-		
+	public Bank createBank(Bank bank) {
+		repository.put(bank.getBankId(), bank);
+		return repository.get(bank.getBankId());
 	}
 
 	@Override
 	public Bank getBank(Long bankId) {		
-		return new Bank(1L, "Scotiabank", "New York, US", "Oscar Enriquez", null);
+		return repository.get(bankId);
 	}
 
 	@Override
-	public void updateBank(Bank bank) {
-		// TODO Auto-generated method stub
+	public Bank updateBank(Bank bank) {
+		if(repository.keySet().contains(bank.getBankId())) {
+			repository.put(bank.getBankId(), bank);
+			return repository.get(bank.getBankId());
+		}
 		
+		return null;
 	}
 
 	@Override
-	public void deleteBank(Bank bank) {
-		// TODO Auto-generated method stub
-		
+	public void deleteBank(Long bankId) {		
+		repository.remove(bankId);
 	}
 
 	@Override
 	public List<Bank> getAllBanks() {
-		List<Bank> list = new ArrayList<>();
-		list.add(new Bank(1L, "Scotiabank", "New York, US", "Oscar Enriquez", null));
-		list.add(new Bank(2L, "Citybank", "Boston, US", "Carlos Escobar", null));
-		list.add(new Bank(3L, "GlobalBank", "London, US", "Andres De Leon", null));
+		List<Bank> list = new ArrayList<>(repository.values());		
 		return list;
 	}
 

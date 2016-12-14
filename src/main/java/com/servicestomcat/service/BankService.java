@@ -6,13 +6,13 @@ import com.servicestomcat.model.Bank;
 
 public interface BankService {
 
-	public void createBank (Bank bank);
+	public Bank createBank (Bank bank);
 	
 	public Bank getBank (Long bankId);
 	
-	public void updateBank (Bank bank);
+	public Bank updateBank (Bank bank);
 	
-	public void deleteBank (Bank bank);
+	public void deleteBank (Long bankId);
 	
 	public List<Bank> getAllBanks ();
 }
